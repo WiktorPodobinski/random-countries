@@ -27,7 +27,34 @@ function CountryData({ continentCode, limit }) {
         .sort(() => Math.random() - 0.5)
         .slice(0, limit)
         .sort((a, b) => a.name.localeCompare(b.name));
-      setCountryData(shuffledCountries);
+
+      const updatedCountryData = [];
+
+      // Fetch missing data for each country
+      Promise.all(
+        shuffledCountries.map(async (country) => {
+          try {
+            const response = await fetch(
+              `https://restcountries.com/v2/name/${country.name}`
+            );
+            const [data] = await response.json();
+
+            updatedCountryData.push({
+              ...country,
+              population: data.population,
+              subregion: data.subregion,
+            });
+          } catch (error) {
+            console.error(error);
+            updatedCountryData.push(country);
+          }
+        })
+      ).then(() => {
+        // Update state only when all countries are processed
+        setCountryData(
+          updatedCountryData.sort((a, b) => a.name.localeCompare(b.name))
+        );
+      });
     }
   }, [loading, error, data, limit]);
 
@@ -43,6 +70,14 @@ function CountryData({ continentCode, limit }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  if (countryData.length === 0 && tryAgainButton) {
+    return (
+      <>
+        <p>No information found for any country. Please try again later.</p>
+        <button onClick={handleTryAgainClick}>Try Again</button>
+      </>
+    );
+  }
 
   return (
     <div>
