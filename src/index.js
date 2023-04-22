@@ -146,7 +146,6 @@ function App() {
   };
 
   const handleTryAgainClick = () => {
-    setContinentCode("");
     setShowOptions(true);
     setShowResults(false);
     setShowTryAgainButton(false);
@@ -212,7 +211,7 @@ function App() {
                 className="try-again-button"
                 onClick={handleTryAgainClick}
               >
-                Try Again?
+                Try again?
               </button>
             )}
           </div>
@@ -223,7 +222,7 @@ function App() {
             disabled={!continentCode || !limit}
             onClick={handleClick}
           >
-            Show Results
+            Show results
           </button>
         )}
       </div>
