@@ -10,7 +10,7 @@ This project was created using React, HTML, CSS, GraphQL & restAPI. Application 
 
 3. Clone the project by running the following command in your command prompt or terminal window: `git clone https://github.com/WiktorPodobinski/random-countries`.
 
-4. Once the cloning process is complete, navigate to the project directory by running the following command in your command prompt or terminal window: `cd <random-countries>`.
+4. Once the cloning process is complete, navigate to the project directory by running the following command in your command prompt or terminal window: `cd random-countries`.
 
 5. Open the project in your preferred code editor.
 
