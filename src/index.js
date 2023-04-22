@@ -19,6 +19,7 @@ function CountryData({ continentCode, limit }) {
   const [showResults, setShowResults] = useState(false);
   const [countryData, setCountryData] = useState([]);
   const [tryAgainButton, setTryAgainButton] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     if (!loading && !error) {
@@ -54,6 +55,7 @@ function CountryData({ continentCode, limit }) {
         setCountryData(
           updatedCountryData.sort((a, b) => a.name.localeCompare(b.name))
         );
+        setIsFetching(false);
       });
     }
   }, [loading, error, data, limit]);
@@ -68,46 +70,52 @@ function CountryData({ continentCode, limit }) {
     setTryAgainButton(false);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isFetching) return <p className="loading-message">Please wait...</p>;
+  if (loading) return <p className="loading-message">Loading...</p>;
+  if (error) return <p className="error-message">Error: {error.message}</p>;
   if (countryData.length === 0 && tryAgainButton) {
     return (
       <>
         <p>No information found for any country. Please try again later.</p>
-        <button onClick={handleTryAgainClick}>Try Again</button>
+        <button onClick={handleTryAgainClick} className="try-again-button">
+          Try Again
+        </button>
       </>
     );
   }
 
   return (
     <div>
-      <h1>Countries from {continentCode}</h1>
-      {countryData.map((country, index) => (
-        <div key={index}>
-          <h3>{country.name}</h3>
-          {country.name && (
-            <>
-              <p>Name: {country.name}</p>
-              <p>Native name: {country.native || "No information found!"}</p>
-              <p>Capital: {country.capital || "No information found!"}</p>
-              <p>Population: {country.population || "No information found!"}</p>
-              <p>Currency: {country.currency || "No information found!"}</p>
-              <p>Subregion: {country.subregion || "No information found!"}</p>
-              <p>
-                Languages:{" "}
-                {country.languages.length > 0
-                  ? country.languages.map((language, index) => (
-                      <span key={index}>
-                        {language.name} ({language.code})
-                        {index !== country.languages.length - 1 && ", "}
-                      </span>
-                    ))
-                  : "No information found!"}
-              </p>
-            </>
-          )}
-        </div>
-      ))}
+      <h1 className="country-presentation">Countries from {continentCode}</h1>
+      <div className="entry-container">
+        {countryData.map((country, index) => (
+          <div key={index} className="entry">
+            <h3>{country.name}</h3>
+            {country.name && (
+              <>
+                <p>Native name: {country.native || "No information found!"}</p>
+                <p>Capital: {country.capital || "No information found!"}</p>
+                <p>
+                  Population: {country.population || "No information found!"}
+                </p>
+                <p>Currency: {country.currency || "No information found!"}</p>
+                <p>Subregion: {country.subregion || "No information found!"}</p>
+                <p>
+                  Languages:{" "}
+                  {country.languages.length > 0
+                    ? country.languages.map((language, index) => (
+                        <span key={index}>
+                          {language.name} ({language.code})
+                          {index !== country.languages.length - 1 && ", "}
+                        </span>
+                      ))
+                    : "No information found!"}
+                </p>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -145,47 +153,80 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Select Continent</h1>
-      <select value={continentCode} onChange={handleContinentChange}>
-        <option value="">-- Select Continent --</option>
-        <option value="AF">Africa</option>
-        <option value="AN">Antarctica</option>
-        <option value="AS">Asia</option>
-        <option value="EU">Europe</option>
-        <option value="NA">North America</option>
-        <option value="OC">Oceania</option>
-        <option value="SA">South America</option>
-      </select>
-      <h1>Select Number of Countries</h1>
-      <button
-        onClick={() => handleLimitChange({ target: { value: limit - 1 } })}
-      >
-        -
-      </button>
-      <span>{limit}</span>
-      <button
-        onClick={() => handleLimitChange({ target: { value: limit + 1 } })}
-      >
-        +
-      </button>
-      {showResults && continentCode && limit && (
-        <div>
-          <CountryData continentCode={continentCode} limit={limit} />
-          {showTryAgainButton && (
-            <button onClick={handleTryAgainClick}>Try Again?</button>
-          )}
-        </div>
-      )}
-      {!showResults && (
-        <button
-          className="result-button"
-          disabled={!continentCode || !limit}
-          onClick={handleClick}
+    <div className="container">
+      <div className="select-form">
+        <h1>Select Continent</h1>
+        <select
+          className="select-continent"
+          value={continentCode}
+          onChange={handleContinentChange}
         >
-          Show Results
-        </button>
-      )}
+          <option className="continent-option" value="">
+            -- Select Continent --
+          </option>
+          <option className="continent-option" value="AF">
+            Africa
+          </option>
+          <option className="continent-option" value="AN">
+            Antarctica
+          </option>
+          <option className="continent-option" value="AS">
+            Asia
+          </option>
+          <option className="continent-option" value="EU">
+            Europe
+          </option>
+          <option className="continent-option" value="NA">
+            North America
+          </option>
+          <option className="continent-option" value="OC">
+            Oceania
+          </option>
+          <option className="continent-option" value="SA">
+            South America
+          </option>
+        </select>
+      </div>
+      <div className="country-count">
+        <h1>Select Number of Countries</h1>
+        <div className="count-controls">
+          <button
+            className="count-control"
+            onClick={() => handleLimitChange({ target: { value: limit - 1 } })}
+          >
+            -
+          </button>
+          <span>{limit}</span>
+          <button
+            className="count-control"
+            onClick={() => handleLimitChange({ target: { value: limit + 1 } })}
+          >
+            +
+          </button>
+        </div>
+        {showResults && continentCode && limit && (
+          <div>
+            <CountryData continentCode={continentCode} limit={limit} />
+            {showTryAgainButton && (
+              <button
+                className="try-again-button"
+                onClick={handleTryAgainClick}
+              >
+                Try Again?
+              </button>
+            )}
+          </div>
+        )}
+        {!showResults && (
+          <button
+            className="result-button"
+            disabled={!continentCode || !limit}
+            onClick={handleClick}
+          >
+            Show Results
+          </button>
+        )}
+      </div>
     </div>
   );
 }
