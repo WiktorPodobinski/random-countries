@@ -145,28 +145,28 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   position: relative;;
-  margin-bottom: 80px; /* Add margin to match .country-count */
+  margin-bottom: 80px; 
 }
 
 .entry {
-  padding: 20px; /* Increase padding for more visual weight */
-  border: 2px solid #333; /* Darken border color to match button color */
+  padding: 20px; 
+  border: 2px solid #333; 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Align elements within .entry */
+  justify-content: space-between; 
 }
 
 .entry h3 {
   font-size: 24px;
   margin-top: 0;
-  margin-bottom: 10px; /* Add margin bottom to match .entry p:last-child */
+  margin-bottom: 10px; 
 }
 
 .entry p {
   font-size: 16px;
   margin-bottom: 5px;
-  flex-grow: 1; /* Make sure text fills available space */
+  flex-grow: 1; 
 }
 
 .entry p:last-child {
@@ -178,10 +178,10 @@ h1 {
 
 .loading-message,
 .error-message {
-  font-size: 24px; /* Decrease font size to match .entry h3 */
+  font-size: 24px; 
   font-weight: bold;
-  text-align: center; /* Add text alignment to center */
-  margin-top: 120px; /* Adjust margin to match other elements */
+  text-align: center; 
+  margin-top: 120px; 
 }
 
 
