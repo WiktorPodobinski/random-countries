@@ -117,10 +117,6 @@ h1 {
   cursor: pointer;
   margin-top: 0px;
   transition: all 0.3s ease;
-  position: absolute;
-  top: 50%;
-  left: 50%; 
-  transform: translate(-50%, -50%); 
 }
 
 .try-again-button:hover {
@@ -132,13 +128,12 @@ h1 {
 }
 
 .country-presentation {
-  margin-top: 160px;
+  margin-top: 45px;
   margin-bottom: 60px;
   font-size: 72px;
   font-weight: bold;
   text-align: center; 
 }
-
 
 .entry-container {
   display: grid;
@@ -173,8 +168,10 @@ h1 {
   margin-bottom: 0;
 }
 
-
-
+img.country-flag {
+  max-width: 100px;
+  max-height: 100px;
+}
 
 .loading-message,
 .error-message {

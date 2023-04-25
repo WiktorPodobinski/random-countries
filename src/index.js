@@ -44,6 +44,7 @@ function CountryData({ continentCode, limit }) {
               ...country,
               population: data.population,
               subregion: data.subregion,
+              flag: data.flag,
             });
           } catch (error) {
             console.error(error);
@@ -93,6 +94,13 @@ function CountryData({ continentCode, limit }) {
             <h3>{country.name}</h3>
             {country.name && (
               <>
+                <p>
+                  <img
+                    className="country-flag"
+                    src={country.flag}
+                    alt={"No flag for this country, sorry :-("}
+                  />
+                </p>
                 <p>Native name: {country.native || "No information found!"}</p>
                 <p>Capital: {country.capital || "No information found!"}</p>
                 <p>
@@ -123,13 +131,11 @@ function CountryData({ continentCode, limit }) {
 function App() {
   const [continentCode, setContinentCode] = useState("");
   const [limit, setLimit] = useState(10);
-  const [showOptions, setShowOptions] = useState(true);
   const [showResults, setShowResults] = useState(false);
   const [showTryAgainButton, setShowTryAgainButton] = useState(false);
 
   const handleContinentChange = (event) => {
     setContinentCode(event.target.value);
-    setShowOptions(false);
     setShowResults(false);
     setShowTryAgainButton(false);
   };
@@ -138,6 +144,7 @@ function App() {
     const value = parseInt(event.target.value);
     setLimit(value >= 2 && value <= 10 ? value : limit);
     setShowResults(false);
+    setShowTryAgainButton(false);
   };
 
   const handleClick = () => {
@@ -146,7 +153,6 @@ function App() {
   };
 
   const handleTryAgainClick = () => {
-    setShowOptions(true);
     setShowResults(false);
     setShowTryAgainButton(false);
   };
@@ -203,28 +209,35 @@ function App() {
             +
           </button>
         </div>
-        {showResults && continentCode && limit && (
-          <div>
-            <CountryData continentCode={continentCode} limit={limit} />
-            {showTryAgainButton && (
+
+        <div>
+          {showTryAgainButton && (
+            <div className="try-again-button-container">
               <button
                 className="try-again-button"
                 onClick={handleTryAgainClick}
               >
                 Try again?
               </button>
-            )}
-          </div>
-        )}
-        {!showResults && (
-          <button
-            className="result-button"
-            disabled={!continentCode || !limit}
-            onClick={handleClick}
-          >
-            Show results
-          </button>
-        )}
+            </div>
+          )}
+          {!showResults && (
+            <div>
+              <button
+                className="result-button"
+                disabled={!continentCode || !limit}
+                onClick={handleClick}
+              >
+                Show results
+              </button>
+            </div>
+          )}
+          {showResults && continentCode && limit && (
+            <div>
+              <CountryData continentCode={continentCode} limit={limit} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
