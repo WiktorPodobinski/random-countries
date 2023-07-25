@@ -4,6 +4,8 @@ This project was created using React, HTML, CSS, GraphQL & restAPI. Application 
 
 ## How to get started with the app
 
+Update: the app has been deployed on Vercel, feel free to skip following steps and jump right on: https://random-countries-v.vercel.app/
+
 1. First, make sure you have Git installed on your computer. If you don't, you can download it from [here](https://git-scm.com/downloads).
 
 2. Open your command prompt or terminal window and navigate to the directory where you want to store the project (you can use the `cd` command).
